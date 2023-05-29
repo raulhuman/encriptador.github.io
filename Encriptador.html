@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/reset.css">
+    <link rel="stylesheet" href="CSS/estilos.css">
+    <title>Encriptador de texto</title>
+</head>
+<body>
+    <header>
+        <h1><img id="logo" src="./images/alura__logo.png"></h1>
+    </header>
+    <section class="ingresoDatos">
+        <textarea placeholder="Ingrese el texto aquí" name="texto" id="texto1" cols="30" rows="10"></textarea>
+        <b><img id="advertencia" alt="signo de advertencia" src="images/warning.png">Solo letras minúsculas y sin acento</b>
+        <button id="encriptar" onclick="encriptar()">Encriptar</button>
+        <button id="desencriptar" onclick="desencriptar()">Desencriptar</button>
+    </section>
+    <section class="salidaDatos">
+        <div >
+            <div id="resultado">
+                <img id="search" src="./images/search.jpg" alt="search">
+                <h2>Ningun mensaje fue encontrado</h2>
+                <p>Ingresa el texto que desees encriptar o desencriptar.</p>
+            </div>
+            
+            <button onclick="copiar()" class="copiar" id="copiar">Copiar</button>
+        </div>
+        
+    </section>
+    <footer><h2 id="firma">Hecho por Raul Huaman</h2></footer>
+</body>
+<script>
+function reemplazar() {
+    var resultado = document.getElementById("resultado")
+    //resultado.style.display = "none";
+    var texto = document.getElementById("texto1").value;
+    resultado.textContent = texto;
+}
+function encriptar(){
+    var texto = document.getElementById("texto1").value;
+    var resultado="";
+    if (texto === resultado) {
+    alert('El campo esta vacío.');
+    return;
+    }
+    if (contieneAcentos(texto)) {
+    alert('No debe contener acentos.');
+    return; // Detener la ejecución de otras funciones
+    }
+    for(i=0;i<texto.length;i++){
+        var caracter = texto[i];
+        if(caracter === 'a'){
+            resultado+= 'ai'
+        }else if(caracter === 'e'){resultado +='enter'}
+        else if(caracter === 'i'){resultado +='imes'}
+        else if(caracter === 'o'){resultado +='ober'}
+        else if(caracter === 'u'){resultado +='ufat'}
+        else{resultado += caracter}
+    }
+    function contieneAcentos(text) {
+    var accents = ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'];
+    for (var i = 0; i < accents.length; i++) {
+        if (text.includes(accents[i])) {
+        return true;
+        }
+    }
+    return false;
+    }
+    document.getElementById("resultado").textContent = resultado;
+}
+function desencriptar(){
+    var texto = document.getElementById("texto1").value;
+    
+    var texto= texto.replace(/ai/g,'a')
+    texto= texto.replace(/enter/g,'e')
+    texto= texto.replace(/imes/g,'i')
+    texto= texto.replace(/ober/g,'o')
+    texto= texto.replace(/ufat/g,'u')
+    document.getElementById("resultado").textContent = texto;
+}
+function copiar() {
+    let copiarText = document.getElementById("resultado").textContent;
+    copiarText.select();
+    document.execCommand("copiar");
+}
+</script>
+</html>
